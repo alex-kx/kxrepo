@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% load static %}
+    <!-- jQuery-->
+    <script src="{% static 'jquery-3.3.1.min.js' %}"></script>
+
+    <script src="{% static 'jquery.cookie.js' %}"></script>
+
+    <!-- dataTable-->
+    <link rel="stylesheet" type="text/css" href="{% static 'DataTables/datatables.min.css' %}"/>
+    <script type="text/javascript" src="{% static 'DataTables/datatables.min.js' %}"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap-4.2.1-dist/css/bootstrap.min.css' %}"/>
+
+
+    <title>Price_evaluation</title>
+  </head>
+   {% csrf_token %}
+  <body>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h2 class="display-6">设备及安装费用估算 <span class="badge badge-warning">APP</span></h2>
+        <h5 class="text-dark">
+            <span class="badge badge-primary">说明</span>
+            <span class="badge badge-pill badge-secondary">1.选择设备及输入设备规模后将提示价格取值参考，数据来源于可研质量提升文件</span>
+            <span class="badge badge-pill badge-secondary">2.输入设备信息后点击添加</span>
+            <span class="badge badge-pill badge-secondary">3.添加错误可选中该行点击删除</span>
+            <span class="badge badge-pill badge-secondary">4.添加完成后可导出Excel表格</span>
+        </h5>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row form-group">
+        <div class = "col-2">
+          <label>设备名称</label>
+          <select class="custom-select" id="device" name="device">
+            <option selected value="0">请选择设备</option>
+            <option value="燃气轮机">燃气轮机</option>
+            <option value="燃气内燃机">燃气内燃机</option>
+            <option value="燃气锅炉">燃气锅炉</option>
+            <option value="余热锅炉">余热锅炉</option>
+            <option value="电空调">电空调</option>
+            <option value="溴化锂机组">溴化锂机组</option>
+            <option value="热泵">热泵</option>
+            <option value="冷却塔">冷却塔</option>
+            <option value="冰蓄冷">冰蓄冷</option>
+            <option value="水泵">水泵</option>
+            <option value="水箱">水箱</option>
+            <option value="板式换热器">板式换热器</option>
+
+
+          </select>
+        </div>
+        <div class = "col-2">
+          <label id="capacity_label">设备规模</label>
+          <input type="text" class="form-control" name="capacity" id="capacity" value="0">
+        </div>
+        <div class = "col-2">
+          <label>数量(个)</label>
+          <input type="text" class="form-control" name="n_device" id="n_device">
+        </div>
+
+        <div class = "col-3">
+          <label id="unit_price_label">单位造价</label>
+          <input type="text" class="form-control" name="ref_unit_price" id="ref_unit_price"><span class="badge badge-warning" id="ref_unit_price_info"></span>
+        </div>
+
+        <div class = "col-3">
+          <label>安装费占比(%)</label>
+          <input type="text" class="form-control" name="ref_installation_fee" id="ref_installation_fee"><span class="badge badge-warning" id="ref_installation_fee_info"></span>
+        </div>
+      </div>
+
+      <div class="row justify-content-end">
+
+      </div>
+      <div class="row justify-content-center">
+         <input class="btn btn-primary btn-sm mb-2 mr-4" id="addRow" value="点击-添加至下表"> <input class="btn btn-danger btn-sm mb-2" id="button_delete_row" value="点击-删除选中行">
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <table class="display" id="price_table"></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 自定义js -->
+    <script src="{% static 'priceEvaluation/price_evaluation.js' %}"></script>
+
+    <!-- BootStrap依赖的js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="{% static 'bootstrap-4.2.1-dist/js/bootstrap.min.js' %}"></script>
+
+  </body>
+</html>

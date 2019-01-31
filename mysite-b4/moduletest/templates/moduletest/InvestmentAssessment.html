@@ -1,0 +1,65 @@
+{% include "moduletest/HeadNavbar.html" %}
+
+{% load static %}
+<div class="jumbotron" style = "background-color:	#F5F5F5 ">
+{#<div class="jumbotron" style = "height: 350px; background-color:	#F5F5F5 ; background:url(http://attach.bbs.miui.com/forum/201708/03/104446sibo1o63okk1wb1u.jpg);  ">#}
+{#<div class="jumbotron" style = "background-color:	#F5F5F5 ; background-image:url("{% static "moduletest/images/timg6.jpg" %}")>#}
+{#<div class="jumbotron" style = "background-color:	#F5F5F5 ; background:url(http://img3.imgtn.bdimg.com/it/u=892145273,2782430071&fm=214&gp=0.jpg);  ">#}
+{#    http://img3.imgtn.bdimg.com/it/u=892145273,2782430071&fm=214&gp=0.jpg#}
+{#    http://t1.niutuku.com/960/23/23-60314.jpg#}
+{#    http://pic1.win4000.com/wallpaper/8/57bd412d7e032.jpg#}
+{#    http://static01.coloros.com/bbs/data/attachment/forum/201603/22/230036v3rnwjic7cwmmmit.jpg#}
+<div class="container" style="height: 150px">
+	<h2 class = "text-danger" >技经测算</h2>
+</div>
+</div>
+
+
+<div class="container">
+<div class="row">
+{#  <div class="col-md-4">#}
+
+<div class="panel panel-primary">
+
+    <div class="panel-heading"><b>参数输入</b></div>
+ <div class="panel-body">
+
+ <form  class="" action="" method="post" enctype="multipart/form-data" id = "form1">
+  {% csrf_token %}
+        <div class="col-xs-4">
+            {{ form1 }}
+            <input class="btn btn-success" type="submit" value="Submit">
+        </div>
+
+ </form>
+ </div>
+</div>
+
+
+ <div class="panel panel-primary">
+<div class="panel-heading"><b>结果输出</b></div>
+ <div class="panel-body">
+
+{% if 投资估算结果 %}
+    <div class="col-xs-6">
+    <table class="table table-striped table-bordered table-hover">
+        <caption class="text-default"><b>表 - 投资估算结果</b></caption><br/>
+
+       {% for row in 投资估算结果 %}
+            <tr>
+             {% for item in row %}
+                 <td>{{ item }}</td>
+             {% endfor %}
+           </tr>
+       {% endfor %}
+    </table>
+    </div>
+
+ {% endif %}
+
+</div>
+</div>
+</div>
+</div>
+
+</body>

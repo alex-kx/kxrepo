@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+
+<body class="text-center">
+    <div class="container" style="margin-top: 10%">
+       <div class="row justify-content-md-center">
+            <div class="col-sm-4">
+                <form class="form-signin" action="" method="post">
+                  {% csrf_token %}
+                  <h1 class="text-dark font-weight-bold">
+                    <i class="fa fa-bar-chart text-danger" aria-hidden="true"></i>
+                    <i class="fa fa-line-chart text-warning" aria-hidden="true"></i>
+                    <i class="fa fa-area-chart text-primary" aria-hidden="true"></i>
+                </h1>
+                  <h1 class="h3 mb-3 font-weight-normal">注册</h1>
+                  <label for="inputEmail" class="sr-only">Email address</label>
+                  <input id="inputEmail" type="email" class="form-control form-control-lg" placeholder="Email" name="email" required autofocus>
+                  <label for="inputEmail" class="sr-only">Username</label>
+                  <input id="inputEmail" class="form-control form-control-lg" placeholder="username" name="username" required autofocus>
+                  <label for="inputPassword" class="sr-only">Password</label>
+                  <input type="password" id="inputPassword" class="form-control form-control-lg" placeholder="Password"  name="password" required>
+                    <br/>
+                  <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+                  <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+                </form>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
+

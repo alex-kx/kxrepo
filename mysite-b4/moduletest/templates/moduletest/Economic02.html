@@ -1,0 +1,179 @@
+{% include "moduletest/HeadNavbar.html" %}
+
+{% load static %}
+<div class="jumbotron" style = "background-color:	#F5F5F5 ">
+{#<div class="jumbotron" style = "height: 350px; background-color:	#F5F5F5 ; background:url(http://attach.bbs.miui.com/forum/201708/03/104446sibo1o63okk1wb1u.jpg);  ">#}
+{#<div class="jumbotron" style = "background-color:	#F5F5F5 ; background-image:url("{% static "moduletest/images/timg6.jpg" %}")>#}
+{#<div class="jumbotron" style = "background-color:	#F5F5F5 ; background:url(http://img3.imgtn.bdimg.com/it/u=892145273,2782430071&fm=214&gp=0.jpg);  ">#}
+{#    http://img3.imgtn.bdimg.com/it/u=892145273,2782430071&fm=214&gp=0.jpg#}
+{#    http://t1.niutuku.com/960/23/23-60314.jpg#}
+{#    http://pic1.win4000.com/wallpaper/8/57bd412d7e032.jpg#}
+{#    http://static01.coloros.com/bbs/data/attachment/forum/201603/22/230036v3rnwjic7cwmmmit.jpg#}
+<div class="container" style="height: 150px">
+	<h2 class = "text-danger" >技经测算</h2>
+</div>
+</div>
+
+<div class="container">
+<div class="row">
+{#  <div class="col-md-4">#}
+
+<div class="panel panel-primary">
+
+    <div class="panel-heading"><b>参数输入</b></div>
+ <div class="panel-body">
+
+ <form  class="" action="" method="post" enctype="multipart/form-data" id = "form1">
+  {% csrf_token %}
+     <div class = "row">
+        <div class="col-xs-3">
+            <h3 class = "text-primary">收入项</h3>
+            {{ form1 }}
+
+         </div>
+
+
+         <div class="col-xs-3">
+             <h3 class = "text-primary">成本项</h3>
+            {{ form2 }}
+         </div>
+
+        <div class="col-xs-3">
+            <h3 class = "text-primary">投资项</h3>
+            {{ form3 }}
+
+         </div>
+
+          <div class="col-xs-3">
+             <h3 class = "text-primary">其他设定</h3>
+            {{ form4 }}
+         </div>
+
+      </div>
+     <br/>
+     <div class="row col-xs-12">
+         <input class = "form-control" type="text" name = "达产率" id="达产率">
+
+          <script>
+             $("#达产率").hide()
+         </script>
+
+       <table class="table table-striped table-bordered table-hover text-nowrap" id = "达产率表格">
+            <tr>
+           <script>
+               document.write("<td>年份</td>");
+               for (var j=1; j<=20 ;j++){
+                   document.write("<td width=\"100px\">" + j + "</td>");
+               }
+           </script>
+            </tr>
+
+            <tr>
+               <td>达产率</td>
+                {% for value in 达产率 %}
+                    <td width="100px" contenteditable="true" >{{ value }}</td>
+                {% endfor %}
+           </tr>
+       </table>
+
+     </div>
+        <input class="btn btn-success" type="submit" value="Submit" id ="submit1">
+        <button class="btn btn-danger" type="button" id ="敏感性分析btn">敏感性分析</button>
+
+ </form>
+    <br/>
+
+ <div id="敏感性分析">
+    <div class="row">
+     <div class="col-xs-4">
+         <label> 敏感性分析-变量选择 </label>
+         <select class="form-control" id="变量选择">
+            <option value ="蒸汽价格">蒸汽价格</option>
+            <option value ="售电价格">售电价格</option>
+            <option value="供热价格">供热价格</option>
+            <option value="供冷价格">供冷价格</option>
+            <option value="光伏售电价格">光伏售电价格</option>
+            <option value="天然气额外销售价格">天然气额外销售价格</option>
+            <option value="天然气成本价格">天然气成本价格</option>
+            <option value="土地租金">土地租金</option>
+            <option value="设备租金">设备租金</option>
+         </select>
+
+         <label>最小值</label>
+         <input type="text" class="form-control" id="最小值">
+         <label>最大值</label>
+         <input type="text" class="form-control" id="最大值">
+         <label>步长</label>
+         <input type="text" class="form-control" id="步长">
+            <br/>
+         <button class="btn btn-danger" type="button" id ="btngraph">click</button>
+     </div>
+    </div>
+
+
+     <div class = "row">
+        <div class="col-md-8">
+             <div id="main" style="width: 100%;height:300px;"></div>
+        </div>
+     </div>
+</div>
+
+
+ </div>
+</div>
+
+
+ <div class="panel panel-primary">
+    <div class="panel-heading"><b>结果输出</b></div>
+        <div class="panel-body">
+
+
+
+            {% load static %}
+            <script src="{% static 'moduletest/js/economicgraph.js' %}" ></script>
+            <script src="{% static 'moduletest/js/economic.js' %}" ></script>
+
+          <script>
+             $("#敏感性分析").hide();
+             $("#敏感性分析btn").click(function(){
+                 $("#敏感性分析").toggle();
+             })
+         </script>
+
+
+        {% if 技经计算结果 %}
+            <div class="row justify-content-center">
+            <div class="col-xs-4" >
+            <table class="table table-striped table-bordered table-hover text-nowrap" >
+                <caption class="text-default"><b>表 - 技经计算结果</b></caption><br/>
+               {% for k, v in 技经计算结果.items %}
+                    <tr>
+                         <td>{{ k }}</td><td>{{ v }}</td>
+                   </tr>
+               {% endfor %}
+            </table>
+            </div>
+            </div>
+         {% endif %}
+
+         {% if 技经计算明细列表 %}
+        <div class="row col-md-12" style="overflow-x: scroll">
+            <table class="table table-striped table-bordered table-hover text-nowrap table-sm" >
+                <caption class="text-default"><b>表 - 全投资现金流量表</b></caption><br/>
+               {% for row in 技经计算明细列表 %}
+                    <tr>
+                        {% for item in row %}
+                             <td>{{ item }}</td>
+                        {% endfor %}
+                   </tr>
+               {% endfor %}
+            </table>
+         </div>
+         {%  endif %}
+
+</div>
+</div>
+</div>
+</div>
+
+</body>

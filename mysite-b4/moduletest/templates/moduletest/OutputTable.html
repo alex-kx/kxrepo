@@ -1,0 +1,60 @@
+<div class="panel-heading">结果输出入</div>
+
+ <div class="panel-body">
+
+{% if 输出量列表 %}
+
+	<table class="table table-striped table-bordered table-hover" >
+	<thead>
+	<tr>
+		<th class="bg-success">时间</th>
+		<th class="bg-success">蒸汽负荷(t)</th>
+		<th class="bg-success">电负荷(kW)</th>
+		<th class="bg-success">发电机发电量(kW)</th>
+		<th class="bg-success">市政电价(元)</th>
+		<th class="bg-success">上网电价(元)</th>
+		<th class="bg-success">内部售电价(元)</th>
+		<th class="bg-success">发电机产汽量(t)</th>
+		<th class="bg-success">燃气锅炉产汽量(t)</th>
+		<th class="bg-success">备用锅炉产汽量(t)</th>
+		<th class="bg-success">运行收益(元)</th
+	</tr>
+	</thead>
+
+	<tbody >
+	{% for 时间, 蒸汽负荷, 电负荷, 发电机发电量 , 市政电价, 上网电价, 内部售电价, 发电机产汽量, 燃气锅炉产汽量, 备用锅炉产汽量, 运行收益 in 输出量列表 %}
+		<tr>
+		<td style = "width:130px">{{  时间 }}</td>
+		<td style = "width:130px">{{  蒸汽负荷 }}</td>
+		<td style = "width:130px">{{  电负荷 }}</td>
+		<td style = "width:130px">{{  发电机发电量 }}</td>
+		<td style = "width:130px">{{  市政电价 }}</td>
+		<td style = "width:130px">{{  上网电价 }}</td>
+		<td style = "width:130px">{{  内部售电价 }}</td>
+		<td style = "width:130px">{{  发电机产汽量 }}</td>
+		<td style = "width:130px">{{  燃气锅炉产汽量 }}</td>
+		<td style = "width:130px">{{  备用锅炉产汽量 }}</td>
+		<td style = "width:130px">{{  运行收益 }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% endif %}
+
+
+{% if combination_list %}
+	<table border="1">
+	{% for machine_group in combination_list %}
+		<tr>
+			{% for item in machine_group %}
+				<td style = "width:200px">{{ item }}</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+	</table>
+
+{% endif %}
+
+{##}
+{#  </div>#}
+</div>

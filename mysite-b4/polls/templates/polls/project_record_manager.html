@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand text-success" href="#"><i class="fas fa-archive mr-3 text-warning"> </i>项目-资源跟踪-管理</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+          </li>
+        </ul>
+
+      </div>
+
+      <ul class="navbar-nav navbar-right">
+        <li class ="nav-item text-white"> <a href="#" class="nav-link text-info"><span><i class="fa fa-user-circle" aria-hidden="true"></i> 用户: </span>{{ user.username }} </a></li>
+        <li class ="nav-item active"><a href="/polls/logout" class="nav-link text-dark"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> 退出登陆</a></li>
+    </ul>
+    </nav>
+
+    <div class="row h-100">
+      <div class="col-2">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">填写项目进展</a>
+          <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">个人项目工作统计</a>
+          <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+          <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+        </div>
+      </div>
+      <div class="col-10">
+        <div class="tab-content" id="v-pills-tabContent">
+          <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+            <div class="row">
+              <div class = "col-8">
+              <form action="{% url 'project_record' %}" method="post">
+              {% csrf_token %}
+                <div class="row form-group">
+                  <div class = "col">
+                    <label>项目名称</label>
+                    <select class="custom-select" id="project_name" name="project_name">
+                      <option selected value="0">请选择项目</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class = "col">
+                    <label>年份</label>
+                    <select class="custom-select" name="year_Num" id="year_Num">
+                      <option selected value="0">请选择年份</option>
+                      <option value=2019>2019</option>
+                    </select>
+                  </div>
+
+                  <div class = "col">
+                    <label>周</label>
+                    <select class="custom-select" name="week_Num" id="week_Num">
+                      <option selected value="0">请选择周</option>
+                      <option value=1>第1周</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class = "col">
+                    <label>项目工时(以天为单位)</label>
+                    <input type="text" class="form-control" name="working_days" id="working_days">
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class = "col">
+                    <label>工作事项</label>
+                    <textarea class="form-control" name="record" id="record" rows = 3></textarea>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class = "col justify-content-sm-center">
+                    <input class="btn btn-primary" type="button" value=" 提交 " id="btn_submit">
+                  </div>
+                </div>
+              </form>
+            </div>
+              <div class ="col mr-4 mt-4">
+                <div class="card border border-primary">
+                  <div class="card-header bg-primary text-light">
+                    该周工作记录
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text" id="week_list_record">暂无</p>
+                  </div>
+                </div>
+             </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+          <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+          <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+        </div>
+       </div>
+
+      </div>
+
+       <!--<div class="navbar navbar-default bg-success navbar-fixed-bottom" id="footer" >
+         <div class="col-1">
+         </div>
+         <div class="col-11">
+           <p></p>
+           <p class="text-light">Tel: 14789877621</p>
+           <p class="text-light">Email: 331520235@qq.com</p>
+           <p class="text-light">Address: </p>
+         </div>
+       </div>-->
+
+    <script>
+    // $.ajaxSetup({
+    //     data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    // });
+
+    function saveData() {
+         $.ajax({
+            type: "POST",
+            dataType: "json",
+            headers: {"X-CSRFToken": $.cookie('csrftoken')},
+            url: "{% url 'project_record' %}",
+            data: {
+                username: "{{current_user|safe}}",
+                project_name: $("#project_name").val(),
+                year_Num: $("#year_Num").val(),
+                week_Num: $("#week_Num").val(),
+                working_days: $("#working_days").val(),
+                record: $("#record").val()
+            },
+            success: function (json) {
+                alert(json["status"]);
+            }
+        });
+    }
+
+    $("#btn_submit").click(function(){
+        saveData()
+    });
+
+    function update_week_record_list() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            headers: {"X-CSRFToken": $.cookie('csrftoken')},
+            url: "{% url 'update_week_record_list' %}",
+            data: {
+                username: "{{current_user|safe}}",
+                year_Num: $("#year_Num").val(),
+                week_Num: $("#week_Num").val()
+
+            },
+            success: function (week_record_list) {
+                $("#week_list_record").empty();
+                if (week_record_list["success"] == "False"){
+                    alert(week_rocord_list["success"])
+                }
+                else {
+                    var str1 = "";
+                    var item_num = week_record_list.item_num;
+                    var project_name_list = week_record_list.project_name_list;
+                    var working_days_list = week_record_list.working_days_list;
+                    var record_list = week_record_list.record_list;
+                    alert(project_name_list[0]);
+                    str1 +="<ul>";
+                    for (var i=0; i<item_num;i++){
+                        str1 +="<li>";
+                        str1 += ("<p>" + project_name_list[i] + "</p> <p>"+"工时:"+working_days_list[i] + "天</p> <p>工作事项:" + record_list[i])+ "</p>";
+                        str1 +="</li>";
+                    }
+                    str1 += "</ul>";
+                    $("#week_list_record").html(str1)
+                }
+
+            }
+        });
+    }
+
+    $("#project_name").change(function(){
+        if ($("#project_name").val()!="0" && $("#year_Num").val()!="0" && $("#week_Num").val()!="0"){
+            update_week_record_list();
+        }
+    });
+
+    </script>
+
+    <script>
+      var project_name_list = {{project_name_list|safe}};
+      $(document).ready(function(){
+          for(i=0; i<project_name_list.length; i++){
+              $("#project_name").append("<option>" + project_name_list[i] + "</option>");
+          }
+      });
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+</html>

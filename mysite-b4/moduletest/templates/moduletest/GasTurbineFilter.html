@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+ <p>参数输入</p>
+ <form class="" action="" method="post" enctype="multipart/form-data" >
+  {% csrf_token %}
+   <label>蒸汽负荷</label>  <input type="text" name="蒸汽负荷"><br/>
+   <label>燃气轮机最小规模</label>  <input type = "text" name = "燃气轮机最小规模"><br/>
+   <label>燃气轮机最大规模</label>  <input type = "text" name = "燃气轮机最大规模"><br/>
+
+{#  <input type="file" name="excel"><br/>#}
+  <input type="submit" value="计算">
+ </form>
+
+ <p>结果输出:</p>
+{% if filter_list %}
+    <table border="1">
+    {% for machine_group in filter_list %}
+        <tr>
+            {% for item in machine_group %}
+                <td style = "width:200px">{{ item }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+{% endif %}
+
+</body>
+</html>

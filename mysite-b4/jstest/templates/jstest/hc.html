@@ -1,0 +1,109 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    {% load static %}
+    <script src="{% static 'jstest/js/echarts.js' %}" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdn.bootcss.com/iScroll/5.2.0/iscroll.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <button type="button" id="btn1">click me</button>
+    <div id="main" style="width: 80%;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        option = {
+
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+
+        xAxis: {
+            type: 'category',
+            data: {{ data1 }}
+        },
+        yAxis: {
+            type: 'value'
+
+        },
+         dataZoom: [
+        {   // 这个dataZoom组件，默认控制x轴。
+            type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+            start: 0,      // 左边在 10% 的位置。
+            end: 100         // 右边在 60% 的位置。
+        }
+        ],
+        series: [
+            {
+            name: 'line1',
+            data: {{ data1 }},
+            type: 'bar',
+            smooth: true
+            },
+            {
+            name: 'line2',
+            data: [9,8,7,6,5,4,3,2,1,0],
+            type: 'bar',
+            smooth: true
+            }
+        ],
+
+        legend: {
+            show: true,
+            data: ['line1', 'line2' ]
+        }
+
+
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+        $("#btn1").click(function () {
+
+            option.legend.selected ={'line1':true,'line2':false};
+
+
+            {#myChart.setOption({#}
+            {#    xAxis: {#}
+            {#        type: 'category',#}
+            {#        data: {{ data1 }}#}
+            {#    },#}
+            {#    series:[{#}
+            {#         name: 'line3',#}
+            {#        data: [9,8,7,6,5,4,3,2,1,0],#}
+            {#        type: 'bar',#}
+            {#        smooth: true#}
+            {#    }]#}
+            {#   }#}
+            {#)#}
+        })
+
+    </script>
+
+
+</body>
+</html>

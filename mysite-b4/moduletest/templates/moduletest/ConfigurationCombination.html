@@ -1,0 +1,40 @@
+{% include "moduletest/HeadNavbar.html" %}
+
+ <h1 style="color: darkgoldenrod">筛选设备配置方案组合</h1>
+ <p style="color: midnightblue">参数输入</p>
+
+
+ <form class="" action="" method="post" enctype="multipart/form-data" >
+  {% csrf_token %}
+  {% if lastTime %}
+   <label>蒸汽负荷(t/h)</label>  <input type="text" name="蒸汽负荷" value="{{ lastTime.蒸汽负荷 }}"><br/>
+   <label>燃气轮机最小规模(kW)</label>  <input type = "text" name = "燃气轮机最小规模" value= {{ lastTime.燃气轮机最小规模 }} ><br/>
+   <label>燃气轮机最大规模(kW)</label>  <input type = "text" name = "燃气轮机最大规模" value={{ lastTime.燃气轮机最大规模 }}><br/>
+   <label>燃气内燃机最小规模(kW)</label>  <input type = "text" name = "燃气内燃机最小规模" value={{ lastTime.燃气内燃机最小规模 }}><br/>
+   <label>燃气内燃机最大规模(kW)</label>  <input type = "text" name = "燃气内燃机最大规模" value={{ lastTime.燃气内燃机最大规模 }}><br/>
+  {% else %}
+    <label>蒸汽负荷(t/h)</label>  <input type="text" name="蒸汽负荷" value="0"><br/>
+   <label>燃气轮机最小规模(kW)</label>  <input type = "text" name = "燃气轮机最小规模" value= "0" ><br/>
+   <label>燃气轮机最大规模(kW)</label>  <input type = "text" name = "燃气轮机最大规模" value="0"><br/>
+   <label>燃气内燃机最小规模(kW)</label>  <input type = "text" name = "燃气内燃机最小规模" value="0"><br/>
+   <label>燃气内燃机最大规模(kW)</label>  <input type = "text" name = "燃气内燃机最大规模" value="0"><br/>
+{% endif %}
+{#  <input type="file" name="excel"><br/>#}
+  <input type="submit" value="计算">
+ </form>
+
+ <p style="color: midnightblue">结果输出:</p>
+{% if combination_list %}
+    <table border="1">
+    {% for machine_group in combination_list %}
+        <tr>
+            {% for item in machine_group %}
+                <td style = "width:200px"><pre>{{ item }}</pre></td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+{% endif %}
+
+</body>
+</html>

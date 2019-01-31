@@ -1,0 +1,28 @@
+{% extends 'moduletest/base01.html' %}
+
+{% block jumbotron %}
+新 建 项 目
+{% endblock jumbotron %}
+
+{% block content1 %}
+
+<div class="row justify-content-md-center">
+    <div class="col-sm-4">
+        <form class="form-signin" action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <h1 class="h3 mb-3 font-weight-normal">上传负荷数据文件</h1>
+          <p class = "text-info">  </p>
+            {{ obj1.excel }}
+            <p></p>
+             <label>项目名称</label>
+            {{ obj1.负荷数据名称 }}
+            <p></p>
+            <br/>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">新建项目</button>
+
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+

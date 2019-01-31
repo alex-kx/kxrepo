@@ -1,0 +1,182 @@
+{% extends 'moduletest/base.html' %}
+
+{% block jumbotron %}
+方 案 测 算
+{% endblock jumbotron %}
+
+{% block ver-nav-content %}
+    <a class="nav-link active" id="v-pills-input1-tab" data-toggle="pill" href="#v-pills-input1" role="tab" aria-controls="v-pills-input1" aria-selected="true"><i class="fa fa-caret-square-o-right text-warning" aria-hidden="true"></i>基本设定</a>
+    <a class="nav-link" id="v-pills-input2-tab" data-toggle="pill" href="#v-pills-input2" role="tab" aria-controls="v-pills-input2" aria-selected="false"><i class="fa fa-caret-square-o-right text-warning" aria-hidden="true"></i> 基础参数</a>
+    <a class="nav-link" id="v-pills-input3-tab" data-toggle="pill" href="#v-pills-input3" role="tab" aria-controls="v-pills-input3" aria-selected="false"><i class="fa fa-caret-square-o-right text-warning" aria-hidden="true"></i> 设备参数</a>
+    <a class="nav-link" id="v-pills-input4-tab" data-toggle="pill" href="#v-pills-input4" role="tab" aria-controls="v-pills-input4" aria-selected="false"><i class="fa fa-caret-square-o-right text-warning" aria-hidden="true"></i> 投资估算参数</a>
+{% endblock %}
+
+
+{% block input-tabs-content %}
+     <form  class="" action="" method="post" enctype="multipart/form-data" id = "form1">
+      {% csrf_token %}
+      <div class="tab-content" id="v-pills-tabContent" >
+          <div class="tab-pane fade show active" id="v-pills-input1" role="tabpanel" aria-labelledby="v-pills-input1-tab">
+            <div class="form-group col-sm-5">
+              <label>选择负荷数据:</label>
+             <select class="form-control" name = "负荷数据" id="负荷数据选择">
+                 {% for 负荷数据 in 负荷数据列表 %}
+                       <option class = "form-control" value ="{{ 负荷数据 }}">{{ 负荷数据 }}</option>
+                 {% endfor %}
+             </select>
+
+            <script>
+                var 负荷数据名称 = {{ 负荷文件名称|safe }};
+                $("#负荷数据选择").val(负荷数据名称);
+            </script>
+
+            {{ Form_FirstPage_obj }}
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-input2" role="tabpanel" aria-labelledby="v-pills-input2-tab">
+            <div class="form-group col-sm-5">
+               {{ Form_basic_obj }}
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-input3" role="tabpanel" aria-labelledby="v-pills-input3-tab">
+            <div class="form-group col-sm-5">
+              {{ Form_Machine_obj }}
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-input4" role="tabpanel" aria-labelledby="v-pills-input4-tab">
+            <div class="form-group col-sm-5">
+              {{ Form_Invest_obj }}
+            </div>
+
+          </div>
+      </div>
+    </form>
+{% endblock %}
+
+{% block button %}
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <input class="btn btn-success" form= "form1" type="submit" value="Submit" id ="submit1">
+     </div>
+{% endblock %}
+
+
+{% block result-windows %}
+
+   {% if 设备配置 %}
+      <h3 class="text-primary">设备配置</h3>
+      {% for 设备 in 设备配置 %}
+        <h4>{{ 设备 }}</h4>
+      {% endfor %}
+  {% endif %}
+
+        <div class="row" style=" margin-right:auto ; margin-left:16%;">
+    <div class = "col-sm-4">
+     {% if 投入产出索引列表 %}
+        <table class="table table-striped table-bordered table-hover" >
+        <caption class="text-default"><b>表 - 能源投入产出</b></caption><br/>
+            {% for k, v in 投入产出索引列表.items %}
+                <tr>
+                    <td>{{ k}}</td><td>{{ v }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    </div>
+
+
+    <div class = "col-sm-4">
+    {% if 技经计算结果 %}
+        <table class="table table-striped table-bordered table-hover" >
+        <caption class="text-default"><b>表 - 技经计算指标</b></caption><br/>
+            {% for k, v in 技经计算结果.items %}
+                <tr>
+                    <td>{{ k}}</td><td>{{ v }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    </div>
+    </div>
+
+    <div class = "row" style=" margin-right:auto ; margin-left:25%;">
+    <div class = "col-sm-6">
+     {% if 投资估算结果 %}
+         <table class="table table-striped table-bordered table-hover text-nowrap" >
+         <caption class="text-default"><b>表 - 投资明细表果</b></caption><br/>
+            {% for row in 投资估算结果 %}
+                <tr>
+                    {% for item in row %}
+                        <td style="max-height: 10px">{{ item }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+         </table>
+    {% endif %}
+    </div>
+    </div>
+
+     <div class = "row col-sm-10" style=" margin-right:auto ; margin-left:8%; overflow-x: scroll">
+    <div class = "col-sm-10">
+     {% if 技经计算明细列表 %}
+         <table class="table table-striped table-bordered table-hover text-nowrap" >
+         <caption class="text-default"><b>表 - 全投资现金流量表</b></caption><br/>
+            {% for row in 技经计算明细列表 %}
+                <tr>
+                    {% for item in row %}
+                        <td style="width: 130px">{{ item }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+         </table>
+    {% endif %}
+    </div>
+    </div>
+
+     <div class = "row">
+    <div class = "col-sm-12">
+     {% if 全年运行情况列表 %}
+
+    <div id="main" style="width: 100%; height:400px;"></div>
+    <script>
+        var 发电机运行列表 = {{ 发电机运行列表 }};
+        var 燃气锅炉运行列表 = {{ 燃气锅炉运行列表 }};
+        var 备用燃气锅炉运行列表 = {{ 备用燃气锅炉运行列表 }};
+        var 蒸汽负荷 = {{ 蒸汽负荷 }};
+        var 时间 = {{ 时间 }};
+    </script>
+    {% load static %}
+    <script src="{% static 'moduletest/js/OperatingStrategy.js' %}" ></script>
+
+         <table class="table table-striped table-bordered table-hover" >
+         <caption class="text-default"><b>表 - 全年运行情况</b></caption><br/>
+         <thead>
+             <tr>
+                <th class="bg-success" style="background-color: #01B468; color:white ">时间</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">蒸汽负荷(t)</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">电负荷(kW)</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">发电机发电量(kW)</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">市政电价(元)</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">上网电价(元)</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">内部售电价(元)</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">发电机产汽量(t)</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">燃气锅炉产汽量(t)</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">备用锅炉产汽量(t)</th>
+                <th class="bg-success" style="background-color: #01B468; color:white">运行收益(元)</th
+            </tr>
+         </thead>
+         <tbody>
+            {% for row in 全年运行情况列表 %}
+                <tr>
+                    {% for item in row %}
+                        <td>{{ item }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+         </tbody>
+         </table>
+    {% endif %}
+    </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends 'moduletest/base.html' %}
+
+{% block jumbotron %}
+量 化 筛 选
+{% endblock jumbotron %}
+
+{% block ver-nav-content %}
+    <a class="nav-link active" id="v-pills-input1-tab" data-toggle="pill" href="#v-pills-input1" role="tab" aria-controls="v-pills-input1" aria-selected="true"><i class="fa fa-caret-square-o-right text-warning" aria-hidden="true"></i> 计算设置</a>
+    <a class="nav-link" id="v-pills-input2-tab" data-toggle="pill" href="#v-pills-input2" role="tab" aria-controls="v-pills-input2" aria-selected="false"><i class="fa fa-caret-square-o-right text-warning" aria-hidden="true"></i> 基础条件</a>
+    <a class="nav-link" id="v-pills-input3-tab" data-toggle="pill" href="#v-pills-input3" role="tab" aria-controls="v-pills-input3" aria-selected="false"><i class="fa fa-caret-square-o-right text-warning" aria-hidden="true"></i> 设备参数</a>
+    <a class="nav-link" id="v-pills-input4-tab" data-toggle="pill" href="#v-pills-input4" role="tab" aria-controls="v-pills-input4" aria-selected="false"><i class="fa fa-caret-square-o-right text-warning" aria-hidden="true"></i> 投资估算参数</a>
+    <a class="nav-link" id="v-pills-input5-tab" data-toggle="pill" href="#v-pills-input5" role="tab" aria-controls="v-pills-input4" aria-selected="false"><i class="fa fa-caret-square-o-right text-warning" aria-hidden="true"></i> 技经测算参数</a>
+{% endblock %}
+
+
+{% block input-tabs-content %}
+    <form  class="" action="" method="post" enctype="multipart/form-data" id = "form1">
+        {% csrf_token %}
+
+        <div class="tab-content" id="v-pills-tabContent" >
+          <div class="tab-pane fade show active" id="v-pills-input1" role="tabpanel" aria-labelledby="v-pills-input1-tab" >
+                <div class ="form-group col-sm-5">
+                    <label>选择项目:</label>
+                     <select class="form-control" name = "负荷数据" id="负荷数据选择">
+                         {% for 负荷数据 in 负荷数据列表 %}
+                               <option value ="{{ 负荷数据 }}">{{ 负荷数据 }}</option>
+                         {% endfor %}
+                     </select>
+
+                    {{ LHSX_Form_obj }}
+                </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-input2" role="tabpanel" aria-labelledby="v-pills-input2-tab">
+              <div class="form-group col-sm-5">
+                {{ Form_basic_obj }}
+              </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-input3" role="tabpanel" aria-labelledby="v-pills-input3-tab">
+            <div class="form-group col-sm-5">
+                {{ Form_Machine_obj }}
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-input4" role="tabpanel" aria-labelledby="v-pills-input4-tab">
+            <div class="form-group col-sm-5">
+                {{ Form_Invest_obj }}
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-input5" role="tabpanel" aria-labelledby="v-pills-input5-tab">
+            <div class="form-group col-sm-5">
+                {{ EconomicParaForm4_obj }}
+            </div>
+
+            <div class="col-md-12">
+                <input class = "form-control" type="text" name = "达产率" id="达产率">
+                  <script>
+                     $("#达产率").hide()
+                 </script>
+                    <h4 class="text-info">达产率</h4>
+                 <table class="table table-striped table-bordered table-hover text-nowrap" id = "达产率表格">
+                   <script>
+                       document.write("<tr>");
+                       document.write("<td>年份</td>");
+                       for (var j=1; j<=20 ;j++){
+                           document.write("<td width=\"100px\">" + j + "</td>");
+                       }
+                       document.write("</tr>");
+
+                       document.write("<tr id=\"达产率表\">");
+                        document.write("<td class=\"thead\">达产率</td>");
+                           for (j=1; j<=20 ;j++){
+                               document.write("<td width=\"100px\" contenteditable=\"true\" id=\"td" + j + "\">" + 1 + "</td>");
+                           }
+                       document.write("</tr>");
+                   </script>
+               </table>
+            </div>
+
+          </div>
+        </div>
+
+    </form>
+
+{% endblock %}
+
+{% block button %}
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="submit" form="form1" class="btn btn-success" id="submit1"><i class="fa fa-cloud-upload" aria-hidden="true"> </i> 提交计算</button>
+        <button class="btn btn-warning" type="button" id="saveInfo">保存项目参数</button>
+    </div>
+
+    {% load static %}
+    <script src="{% static 'moduletest/js/SolutionComparisonDataLoadSave.js' %}"></script>
+    <script>
+        var 负荷数据名称 = {{ 负荷文件名称|safe }};
+        $("#负荷数据选择").val(负荷数据名称);
+    </script>
+{% endblock %}
+
+{% block result-windows %}
+    {% if 输出结果 %}
+         <div id="main" style="width: 100%;height:400px;"></div>
+        <script>
+            var 建设投资列表 = {{ 建设投资列表 }};
+            var 利润总额列表 = {{ 利润总额列表 }};
+            var 内部收益率列表 = {{ 内部收益率列表 }};
+            var 投资回收期列表 = {{ 投资回收期列表 }};
+            var 方案标识列表 = {{ 方案标识列表 }};
+        </script>
+        {% load static %}
+        <script src="{% static 'moduletest/js/SolutionComparison.js' %}" ></script>
+
+        <div class="table-responsive">
+         <table class="table table-striped table-bordered table-hover"  id = "tableResult">
+          <thead>
+          <tr>
+            <th>序号</th>
+            {% for val in 表头 %}
+                <th>{{ val }}</th>
+            {% endfor %}
+          </tr>
+          </thead>
+
+          <tbody>
+            {% for 方案结果 in  输出结果 %}
+             <tr>
+                 <th>{{ forloop.counter }}</th>>
+                {% for value in 方案结果 %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+             </tr>
+            {% endfor %}
+          </tbody>
+
+         </table>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <button type="button" class ="btn btn-warning" id="btnExport">导出excel</button>
+        </div>
+
+    {% endif %}
+
+    <script>
+     $(document).ready(function () {
+        $("#btnExport").click(function () {
+            $("#tableResult").tableExport(formats = 'xlsx')
+        });
+    });
+    </script>
+
+     {% load static %}
+        <script src="https://cdn.bootcss.com/xlsx/0.12.7/xlsx.core.min.js"></script>
+        <script src={% static 'moduletest/js/FileSaver.js' %}></script>
+        <script src={% static 'moduletest/js/tableexport.js' %}></script>
+{% endblock %}

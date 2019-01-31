@@ -1,0 +1,179 @@
+{% extends 'moduletest/base.html' %}
+
+{% block jumbotron %}
+ 运行策略 & 投入产出
+{% endblock jumbotron %}
+
+{% block input-tabs-content %}
+     <form class="" action="" method="post" enctype="multipart/form-data" id = "form1">
+  {% csrf_token %}
+  <div class="row">
+     <div class="col-sm-4">
+
+         <div class="form-group">
+            <label>选择负荷数据:</label>
+             <select class="form-control" name = "负荷数据" id="负荷数据选择">
+                 {% for 负荷数据 in 负荷数据列表 %}
+                       <option class = "form-control" value ="{{ 负荷数据 }}">{{ 负荷数据 }}</option>
+                 {% endfor %}
+             </select>
+             </div>
+
+          <div class="form-group">
+         {{ obj1.并网模式.label_tag }}
+         {{ obj1.并网模式 }}
+        </div>
+
+          <div class="form-group">
+         {{ obj1.发电机型号选择.label_tag }}
+         {{ obj1.发电机型号选择 }}
+         </div>
+
+         <div class="form-group">
+         {{ obj1.发电机台数.label_tag }}
+         {{ obj1.发电机台数 }}
+         </div>
+
+
+         <div class="form-group">
+              {{ obj1.燃气价格.label_tag }}
+            {{ obj1.燃气价格 }}
+         </div>
+
+          <div class="form-group">
+             {{ obj1.蒸汽价格.label_tag }}
+            {{ obj1.蒸汽价格 }}
+          </div>
+
+    </div>
+
+     <div class="col-sm-4">
+
+         <div class="form-group">
+          {{ obj1.燃气热值.label_tag }}
+            {{ obj1.燃气热值 }}
+         </div>
+
+          <div class="form-group">
+          {{ obj1.水蒸气焓差.label_tag }}
+            {{ obj1.水蒸气焓差 }}
+         </div>
+
+          <div class="form-group">
+          {{ obj1.燃气轮机满负荷运行小时数限制.label_tag }}
+            {{ obj1.燃气轮机满负荷运行小时数限制 }}
+         </div>
+
+          <div class="form-group">
+          {{ obj1.燃气内燃机满负荷运行小时数限制.label_tag }}
+            {{ obj1.燃气内燃机满负荷运行小时数限制 }}
+         </div>
+
+          <div class="form-group">
+         {{ obj1.燃气锅炉效率.label_tag }}
+            {{ obj1.燃气锅炉效率 }}
+         </div>
+
+          <div class="form-group">
+         {{ obj1.余热锅炉效率.label_tag }}
+            {{ obj1.余热锅炉效率 }}
+         </div>
+
+     </div>
+  </div>
+
+ </form>
+{% endblock %}
+
+{% block button %}
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <input class="btn btn-success" form= "form1" type="submit" value="Submit" id ="submit1">
+     </div>
+{% endblock %}
+
+{% block result-windows %}
+
+{% if 结果数据列表 %}
+    <div id="main" style="width: 100%;height:400px;"></div>
+    <script>
+        var 发电机运行列表 = {{ 发电机运行列表 }};
+        var 燃气锅炉运行列表 = {{ 燃气锅炉运行列表 }};
+        var 备用燃气锅炉运行列表 = {{ 备用燃气锅炉运行列表 }};
+        var 蒸汽负荷 = {{ 蒸汽负荷 }};
+        var 时间 = {{ 时间 }};
+    </script>
+    {% load static %}
+    <script src="{% static 'moduletest/js/OperatingStrategy.js' %}" ></script>
+
+
+
+    <table class="table table-striped table-bordered table-hover">
+        <caption class="text-default"><b>表 - 全年投入产出</b></caption><br/>
+        <tr>
+           {% for v in 结果表头列表 %}
+               <td style = "width:130px">{{  v }}</td>
+           {% endfor %}
+        </tr>
+        <tr>
+           {% for v in 结果数据列表 %}
+               <td style = "width:130px">{{  v }}</td>
+           {% endfor %}
+        </tr>
+    </table>
+
+ {% endif %}
+
+{% if 输出量列表 %}
+
+	<table class="table table-striped table-bordered table-hover" >
+    <caption class="text-default"><b>表 - 设备全年实时运行情况</b></caption><br/>
+	<thead>
+	<tr>
+		<th class="bg-success" style="background-color: #01B468; color:white ">时间</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">蒸汽负荷(t)</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">电负荷(kW)</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">发电机发电量(kW)</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">市政电价(元)</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">上网电价(元)</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">内部售电价(元)</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">发电机产汽量(t)</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">燃气锅炉产汽量(t)</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">备用锅炉产汽量(t)</th>
+		<th class="bg-success" style="background-color: #01B468; color:white">运行收益(元)</th
+	</tr>
+	</thead>
+
+	<tbody >
+	{% for 时间, 蒸汽负荷, 电负荷, 发电机发电量 , 市政电价, 上网电价, 内部售电价, 发电机产汽量, 燃气锅炉产汽量, 备用锅炉产汽量, 运行收益 in 输出量列表 %}
+		<tr>
+		<td style ="background-color: #01B468; color:white; width:130" >{{  时间 }}</td>
+		<td style = "width:130px">{{  蒸汽负荷 }}</td>
+		<td style = "width:130px">{{  电负荷 }}</td>
+		<td style = "width:130px">{{  发电机发电量 }}</td>
+		<td style = "width:130px">{{  市政电价 }}</td>
+		<td style = "width:130px">{{  上网电价 }}</td>
+		<td style = "width:130px">{{  内部售电价 }}</td>
+		<td style = "width:130px">{{  发电机产汽量 }}</td>
+		<td style = "width:130px">{{  燃气锅炉产汽量 }}</td>
+		<td style = "width:130px">{{  备用锅炉产汽量 }}</td>
+		<td style = "width:130px">{{  运行收益 }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% endif %}
+
+
+{% if combination_list %}
+	<table border="1">
+	{% for machine_group in combination_list %}
+		<tr>
+			{% for item in machine_group %}
+				<td style = "width:200px">{{ item }}</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+	</table>
+
+{% endif %}
+{% endblock %}
